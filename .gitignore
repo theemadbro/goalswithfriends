@@ -19,3 +19,5 @@ _ReSharper.*
 *.cache
 
 ~$*
+
+appsettings.json
