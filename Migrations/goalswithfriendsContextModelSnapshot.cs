@@ -128,9 +128,14 @@ namespace goalswithfriends.Migrations
                     b.Property<string>("password")
                         .IsRequired();
 
+                    b.Property<bool>("privacy");
+
                     b.Property<DateTime>("updated_at")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.ComputedColumn);
+
+                    b.Property<string>("username")
+                        .IsRequired();
 
                     b.HasKey("id");
 

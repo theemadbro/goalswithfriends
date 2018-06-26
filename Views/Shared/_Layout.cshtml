@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - goalswithfriends</title>
+    <title>@ViewData["Title"] - Goals Wtih Friends!</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -13,7 +13,7 @@
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     </environment>
 </head>
 <body>
@@ -26,14 +26,25 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">goalswithfriends</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Goals with Friends!</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    @{
+                        if(@ViewBag.CurrentUser.id != 0)
+                        {
+                            <li><a asp-area="" asp-controller="Home" asp-action="Dashboard">Home</a></li>
+                            <li><a asp-area="" asp-controller="Home" asp-action="new">Create Auction</a></li>
+                        }
+                    }
                 </ul>
+                @{
+                    if(@ViewBag.CurrentUser.id != 0)
+                    {
+                        <a asp-area="" asp-controller="Home" asp-action="logout" class="navbar-brand navbar-right">Log Out</a>
+                        <span class="welcome navbar-text navbar-right">Welcome, @ViewBag.CurrentUser.name | </span>
+                    }
+                }
             </div>
         </div>
     </nav>
@@ -41,7 +52,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2018 - goalswithfriends</p>
+            <p>&copy; 2018 - Zoe Chastain / Kevin Capotosto</p>
         </footer>
     </div>
 

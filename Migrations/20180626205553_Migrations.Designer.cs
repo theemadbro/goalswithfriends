@@ -11,8 +11,8 @@ using System;
 namespace goalswithfriends.Migrations
 {
     [DbContext(typeof(goalswithfriendsContext))]
-    [Migration("20180626181249_init")]
-    partial class init
+    [Migration("20180626205553_Migrations")]
+    partial class Migrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,13 +26,13 @@ namespace goalswithfriends.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("EndDate");
-
                     b.Property<DateTime>("created_at")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.ComputedColumn);
 
                     b.Property<string>("desc");
+
+                    b.Property<DateTime>("endDate");
 
                     b.Property<string>("goal");
 
@@ -86,12 +86,28 @@ namespace goalswithfriends.Migrations
                     b.ToTable("Groups");
                 });
 
-            modelBuilder.Entity("goalswithfriends.Models.Users", b =>
+            modelBuilder.Entity("goalswithfriends.Models.Members", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("Groupsid");
+                    b.Property<int>("groupid");
+
+                    b.Property<int>("memberid");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("groupid");
+
+                    b.HasIndex("memberid");
+
+                    b.ToTable("Members");
+                });
+
+            modelBuilder.Entity("goalswithfriends.Models.Users", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("bio");
 
@@ -113,13 +129,16 @@ namespace goalswithfriends.Migrations
                     b.Property<string>("password")
                         .IsRequired();
 
+                    b.Property<bool>("privacy");
+
                     b.Property<DateTime>("updated_at")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.ComputedColumn);
 
-                    b.HasKey("id");
+                    b.Property<string>("username")
+                        .IsRequired();
 
-                    b.HasIndex("Groupsid");
+                    b.HasKey("id");
 
                     b.ToTable("users");
                 });
@@ -140,16 +159,22 @@ namespace goalswithfriends.Migrations
             modelBuilder.Entity("goalswithfriends.Models.Groups", b =>
                 {
                     b.HasOne("goalswithfriends.Models.Users", "owner")
-                        .WithMany()
+                        .WithMany("groups")
                         .HasForeignKey("ownerid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("goalswithfriends.Models.Users", b =>
+            modelBuilder.Entity("goalswithfriends.Models.Members", b =>
                 {
-                    b.HasOne("goalswithfriends.Models.Groups")
+                    b.HasOne("goalswithfriends.Models.Groups", "group")
                         .WithMany("members")
-                        .HasForeignKey("Groupsid");
+                        .HasForeignKey("groupid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("goalswithfriends.Models.Users", "member")
+                        .WithMany()
+                        .HasForeignKey("memberid")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

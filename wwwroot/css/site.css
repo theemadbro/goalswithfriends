@@ -6,8 +6,7 @@
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding: 15px;
 }
 
 /* Carousel */
@@ -32,4 +31,15 @@
     .carousel-caption {
         display: none;
     }
+}
+
+.welcome { 
+    padding: 0px 5px;
+}
+.simpleMar {
+    margin: 5px 5px 5px 0px;
+}
+
+td {
+    padding: 6px;
 }

@@ -25,6 +25,24 @@ namespace goalswithfriends.Models
             }
         }
     }
+    public class UsernameUniqueAttribute : ValidationAttribute
+    {
+        public UsernameUniqueAttribute()
+        {}
+        protected override ValidationResult IsValid(object value, ValidationContext ValidationContext)
+        {
+            var _context = (goalswithfriendsContext) ValidationContext.GetService(typeof(goalswithfriendsContext));
+            var checkUsername = _context.users.SingleOrDefault(login => login.username == (string)value);
+            if (checkUsername == null)
+            {
+                return ValidationResult.Success;
+            }
+            else
+            {
+                return new ValidationResult("Username already in use!");
+            }
+        }
+    }
     public class Users
     {
         [Key]
@@ -48,6 +66,11 @@ namespace goalswithfriends.Models
         [DataType(DataType.EmailAddress)]
         public string email { get; set; }
 
+        [Required]
+        [UsernameUnique]
+        [RegularExpression("(?!.*[\\.\\-\\_]{2,})^[a-zA-Z0-9\\.\\-\\_]$", ErrorMessage="Numbers shouldn't be in names!")]
+        public string username { get; set; }
+
 
         [Required]
         [MinLength(8)]
@@ -56,6 +79,9 @@ namespace goalswithfriends.Models
 
 
         public string bio { get; set; }
+
+
+        public bool privacy { get; set; }
 
 
         public DateTime birthday { get; set; }
