@@ -1,4 +1,4 @@
-﻿@{
+@{
     ViewData["Title"] = "Welcome!";
 }
 
@@ -20,10 +20,16 @@
 
 <div class="left">
     <div class="userinfo">
-        <h2>Welcome, Guest!</h2>
+        <h2>Welcome, [NAME]!</h2>
         <hr class="namediv">
-        <a href="/register"><button class="simpleMar btn btn-default btn-lg">Sign Up</button></a>
-        <p>Already a user? <a href="/login">Sign In</a></p>
+        <h4>Goals Ending Soon</h4>
+        <div id="homepagegoals">
+            <ul>
+                <!-- SOONEST THREE TO END -->
+                <li>[GOAL] - <span class="grpmb">ending on [END DATE]</span></li>          
+            </ul>
+        </div>
+        <button class="simpleMar btn btn-default">Manage Goals</button>
         <hr class="namediv">
     </div>
     <div class="groups">
@@ -40,7 +46,7 @@
         This website was created with the intention to allow friends from all over the globe to make goals with each other and better themselves together. Having a place to record one's goals helps accountability, not only so that the person who created it can have a visual reminder, but so their friends may help keep them on track as well. Joining GwF will allow you to create both public and private groups, make any number of goals for yourself, and help strengthen your network of support as you reach for goals you might never have thought possible until now.
     </div>
     <div class="options">
-        <a href="/group/create"><button class="simpleMar btn btn-default">Make a Group</button></a><br>
+        <button class="simpleMar btn btn-default">Make a Group</button><br>
         <button class="simpleMar btn btn-default">Make a Goal</button><br>
         <button id="joinpriv" class="simpleMar btn btn-default">Join a Private Group</button>
         </div>
