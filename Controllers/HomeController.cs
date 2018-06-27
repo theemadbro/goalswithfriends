@@ -182,6 +182,30 @@ namespace goalswithfriends.Controllers
         }
 
         [HttpGet]
+        [Route("/test")]
+        public IActionResult Test() {
+            List<CurrentUser> ret = HttpContext.Session.GetObjectFromJson<List<CurrentUser>>("curr");
+            if (ret[0] == null)
+            {
+                CurrentUser newcurr = new CurrentUser();
+                newcurr.id = 0;
+                ViewBag.CurrentUser = newcurr;
+                return View();
+            }
+            else if (ret[0].id == 0)
+            {
+
+                ViewBag.CurrentUser = ret[0];
+                return View();
+            }
+            else
+            {
+                ViewBag.CurrentUser = ret[0];
+                return View();
+            }
+        }
+
+        [HttpGet]
         [Route("profile/{inp}")]
         public IActionResult Profile()
         {

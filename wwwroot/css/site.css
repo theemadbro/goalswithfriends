@@ -48,11 +48,12 @@ td {
 .left {
     display: inline-block;
     vertical-align: top;
-    width: 50%;
+    width: 45%;
 }
 
 .right {
-    width: 49%;    
+    margin-left: 40px;
+    width: 45%;    
     display: inline-block;
 }
 .container {
@@ -78,4 +79,22 @@ h4 {
     width: 125px;
     padding: 10px;
     margin: 5px;
+}
+.profileinfo {
+    margin-right: 70px;
+    display: inline-block;
+    width: 43%;
+}
+td {
+    vertical-align: top;
+}
+.profstuff {
+    /* margin-left: 30px; */
+    vertical-align: top;
+    display: inline-block;
+    width: 45%;
+}
+.profstuff ul {
+    height: 150px;
+    overflow-y: auto;
 }
