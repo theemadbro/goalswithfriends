@@ -67,8 +67,34 @@ namespace goalswithfriends.Controllers
 
 
         [HttpGet]
-        [Route("loginreg")]
-        public IActionResult LoginReg()
+        [Route("login")]
+        public IActionResult Login()
+        {
+            List<CurrentUser> ret = HttpContext.Session.GetObjectFromJson<List<CurrentUser>>("curr");
+            if(ret == null)
+            {
+                CurrentUser newcurr = new CurrentUser();
+                newcurr.id = 0;
+                ViewBag.CurrentUser = newcurr;
+                List<object> temp = new List<object>();
+                temp.Add(newcurr);
+                HttpContext.Session.SetObjectAsJson("curr", temp);
+                return View();
+            }
+            else if (ret.Count == 0)
+            {
+                ViewBag.CurrentUser = ret[0];
+                return View();
+            }
+            else
+            {
+                ViewBag.CurrentUser = ret[0];
+                return View();
+            }
+        }
+        [HttpGet]
+        [Route("register")]
+        public IActionResult Register()
         {
             List<CurrentUser> ret = HttpContext.Session.GetObjectFromJson<List<CurrentUser>>("curr");
             if(ret == null)
