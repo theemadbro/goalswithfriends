@@ -41,14 +41,19 @@
         <td><span asp-validation-for="email"></span></td>
     </tr>
     <tr>
+        <td>Username: </td>
+        <td><input asp-for="username"></input></td>
+        <td><span asp-validation-for="username"></span></td>
+    </tr>
+    <tr>
         <td>Password: </td>
         <td><input asp-for="password"></input></td>
         <td><span asp-validation-for="password" type="password"></span></td>
     </tr>
     <tr>
         <td>Confirm Password: </td>
-        <td><input asp-for="password"></input></td>
-        <td><span type="password" asp-validation-for="password"></span></td>
+        <td><input asp-for="passcheck"></input></td>
+        <td><span type="passcheck" asp-validation-for="passcheck"></span></td>
     </tr>
 </table>
 <input type="submit" value="Submit!">
