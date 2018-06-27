@@ -1,4 +1,4 @@
-﻿@{
+@{
     ViewData["Title"] = "Welcome!";
 }
 
@@ -20,10 +20,16 @@
 
 <div class="left">
     <div class="userinfo">
-        <h2>Welcome, Guest!</h2>
+        <h2>Welcome, [NAME]!</h2>
         <hr class="namediv">
-        <a href="/register"><button class="simpleMar btn btn-default btn-lg">Sign Up</button></a>
-        <p>Already a user? <a href="/login">Sign In</a></p>
+        <h4>Goals Ending Soon</h4>
+        <div id="homepagegoals">
+            <ul>
+                <!-- SOONEST THREE TO END -->
+                <li>[GOAL] - <span class="grpmb">ending on [END DATE]</span></li>          
+            </ul>
+        </div>
+        <button class="simpleMar btn btn-default">Manage Goals</button>
         <hr class="namediv">
     </div>
     <div class="groups">
