@@ -43,6 +43,24 @@ namespace goalswithfriends.Models
             }
         }
     }
+    public class BirthdayCheckAttribute : ValidationAttribute
+    {
+        public BirthdayCheckAttribute()
+        {}
+        protected override ValidationResult IsValid(object value, ValidationContext ValidationContext)
+        {
+           DateTime current = DateTime.Now.AddYears(-13);
+           DateTime inp = (DateTime)value;
+            if (current < inp)
+            {
+                return ValidationResult.Success;
+            }
+            else
+            {
+                return new ValidationResult("Must be as least 13 years old to use Goals With Friends!");
+            }
+        }
+    }
     public class Users
     {
         [Key]
@@ -68,7 +86,7 @@ namespace goalswithfriends.Models
 
         [Required]
         [UsernameUnique]
-        [RegularExpression(@"(?!.*[\.\-_]{2,})^[a-zA-Z0-9\.\-_]{3,24}$", ErrorMessage="Usernames may only contain alphanumeric and the '-', '.' and '_' characters.")]
+        [RegularExpression(@"(?!.*[\.\-_]{2,})^[a-zA-Z0-9\.\-_]{3,24}$", ErrorMessage="Usernames may only contain alphanumeric and the '-', '.' and '_' characters, non-repeating.")]
         public string username { get; set; }
 
 
@@ -90,6 +108,9 @@ namespace goalswithfriends.Models
         public bool privacy { get; set; }
 
 
+        [Required(ErrorMessage="Birthday is required!")]
+        [BirthdayCheck]
+        [DataType(DataType.Date)]
         public DateTime birthday { get; set; }
 
 

@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+@model goalswithfriends.Models.Users
+
+
+<form action="login" method="POST"><table class="">
+    <h2>Login</h2>
+    <tr>
+        <td>Email: </td>
+        <td><input name="inEmail" type="email"></input></td>
+    </tr>
+    <tr>
+        <td>Password: </td>
+        <td><input name="inPass" type="password"></input></td>
+    </tr>
+
+    <tr>
+        <td><input type="submit" value="Submit!"></td>
+        <td><span>@ViewBag.LogError</span></td>
+    </tr>
+</table></form>
