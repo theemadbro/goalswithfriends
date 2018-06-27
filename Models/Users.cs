@@ -68,7 +68,7 @@ namespace goalswithfriends.Models
 
         [Required]
         [UsernameUnique]
-        [RegularExpression("(?!.*[\\.\\-\\_]{2,})^[a-zA-Z0-9\\.\\-\\_]$", ErrorMessage="Numbers shouldn't be in names!")]
+        [RegularExpression(@"(?!.*[\.\-_]{2,})^[a-zA-Z0-9\.\-_]{3,24}$", ErrorMessage="Usernames may only contain alphanumeric and the '-', '.' and '_' characters.")]
         public string username { get; set; }
 
 
@@ -76,6 +76,12 @@ namespace goalswithfriends.Models
         [MinLength(8)]
         [DataType(DataType.Password)]
         public string password { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        [Compare("password", ErrorMessage="Passwords must match!")]
+        [NotMapped]
+        public string passcheck { get; set; }
 
 
         public string bio { get; set; }

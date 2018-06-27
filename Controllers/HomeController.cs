@@ -101,6 +101,7 @@ namespace goalswithfriends.Controllers
             ViewBag.CurrentUser = ret[0];
             if(ModelState.IsValid)
             {
+                
                 PasswordHasher<Users> Hasher = new PasswordHasher<Users>();
                 inp.password = Hasher.HashPassword(inp, inp.password);
                 inp.privacy = true;
@@ -113,12 +114,12 @@ namespace goalswithfriends.Controllers
                 List<object> temp = new List<object>();
                 temp.Add(newcurr);
                 HttpContext.Session.SetObjectAsJson("curr", temp);
-                return RedirectToAction("Dashboard");
+                return RedirectToAction("Home");
             }
             else
             {
-                
-                return View("Index");
+                ViewBag.CurrentUser = ret[0];
+                return View("LoginReg");
             }
         }
 
