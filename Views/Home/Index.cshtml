@@ -10,7 +10,8 @@
             $("#joinform").css("display", "block");
         });
 
-        $('#cancel').click(function() {
+        $('#cancel').click(function(e) {
+            e.preventDefault();
             $("#joinform").css("display", "none");
             $("#joinpriv").css("display", "block");
         })
@@ -47,7 +48,7 @@
         This website was created with the intention to allow friends from all over the globe to make goals with each other and better themselves together. Having a place to record one's goals helps accountability, not only so that the person who created it can have a visual reminder, but so their friends may help keep them on track as well. Joining GwF will allow you to create both public and private groups, make any number of goals for yourself, and help strengthen your network of support as you reach for goals you might never have thought possible until now.
     </div>
     <div class="options">
-        <button class="simpleMar btn btn-default">Make a Group</button><br>
+        <a href="/group/create"><button class="simpleMar btn btn-default">Make a Group</button></a><br>
         <button class="simpleMar btn btn-default">Make a Goal</button><br>
         <button id="joinpriv" class="simpleMar btn btn-default">Join a Private Group</button>
         </div>
