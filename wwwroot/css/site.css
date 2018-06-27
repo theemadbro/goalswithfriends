@@ -7,6 +7,8 @@
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
     padding: 15px;
+    margin: 0% 15% 0% 15%;
+    /* margin: 0px; */
 }
 
 /* Carousel */
@@ -42,4 +44,38 @@
 
 td {
     padding: 6px;
+}
+.left {
+    display: inline-block;
+    vertical-align: top;
+    width: 50%;
+}
+
+.right {
+    width: 49%;    
+    display: inline-block;
+}
+.container {
+    margin-left: auto;
+    margin-right: auto;
+}
+.grpnm {
+    font-weight: bold;
+    text-decoration: underline;
+    margin-right: 20px;
+}
+.grpmb {
+    font-style: italic;
+}
+h4 {
+    display: inline-block;
+}
+.groupslist {
+    height: 300px;
+    overflow-y: auto;
+}
+.options button {
+    width: 125px;
+    padding: 10px;
+    margin: 5px;
 }
