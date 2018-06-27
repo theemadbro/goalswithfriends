@@ -249,9 +249,43 @@ namespace goalswithfriends.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("group/create")]
+        public IActionResult CreateGroup(Groups inp)
+        {
+            List<CurrentUser> ret = HttpContext.Session.GetObjectFromJson<List<CurrentUser>>("curr");
+            ViewBag.CurrentUser = ret[0];
+            if (ret[0].id == 0)
+            {
+                return RedirectToAction("");
+            }
+            else
+            {
+                if(ModelState.IsValid)
+                {
+                    inp.ownerid = ret[0].id;
+                    _context.Add(inp);
+                    _context.SaveChanges();
+                    Groups curr = _context.groups.OrderByDescending(g => g.created_at).FirstOrDefault();
+                    Members owner = new Members();
+                    owner.groupid = curr.id;
+                    owner.memberid = ret[0].id;
+                    _context.Add(owner);
+                    _context.SaveChanges();
+                    return Redirect($"/group/{curr.id}");
+                }
+                else
+                {
+                    return View("NewGroup");
+                }
+
+            }
+        }
+        
+
         [HttpGet]
-        [Route("profile/{inp}")]
-        public IActionResult Profile()
+        [Route("profile/{user}")]
+        public IActionResult Profile(string user)
         {
             List<CurrentUser> ret = HttpContext.Session.GetObjectFromJson<List<CurrentUser>>("curr");
             if (ret[0].id == 0)
@@ -260,6 +294,24 @@ namespace goalswithfriends.Controllers
             }
             else
             {
+                ViewBag.CurrentUser = ret[0];
+                return View();
+            }
+        }
+
+        [HttpGet]
+        [Route("group/{groupid}")]
+        public IActionResult ShowGroup(int groupid)
+        {
+            List<CurrentUser> ret = HttpContext.Session.GetObjectFromJson<List<CurrentUser>>("curr");
+            if (ret[0].id == 0)
+            {
+                return RedirectToAction("");
+            }
+            else
+            {
+                Groups curr = _context.groups.SingleOrDefault(g => g.id == groupid);
+                ViewBag.CurrentGroup = curr;
                 ViewBag.CurrentUser = ret[0];
                 return View();
             }
