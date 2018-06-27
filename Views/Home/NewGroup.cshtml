@@ -9,10 +9,10 @@
     $(document).ready(function(){
         $('input[type="checkbox"]').click(function(){
             if($(this).prop("checked") == true){
-                $('#grppswd').prop('disabled', false);
+                $('#pass').prop('disabled', false);
             }
             else if($(this).prop("checked") == false){
-                $('#grppswd').prop('disabled', true);
+                $('#pass').prop('disabled', true);
             }
         });
     });
@@ -20,7 +20,7 @@
 
 <h1>Make a Group</h1>
 <hr>
-<form>
+<form action="group/create" method="POST">
     <table>
         <tr>
             <td>Name:</td>
@@ -32,12 +32,12 @@
             <td><input asp-for="desc"></td>
         </tr>
         <tr>
-            <td>Privacy:</td>
-            <td><input type="checkbox" name="privacy" value="private">Private</td>
+            <td>Make the Group private?</td>
+            <td><input type="checkbox" name="privacy" value="private">Yes</td>
         </tr>
         <tr>
             <td>Password:</td>
-            <td><input asp-for="password" id="grppswd" disabled></td>
+            <td><input asp-for="password" id="pass" disabled></td>
         </tr>
         <tr>
             <td></td>
@@ -45,3 +45,4 @@
         </tr>
     </table>
 </form>
+

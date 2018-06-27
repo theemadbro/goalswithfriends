@@ -51,7 +51,7 @@ namespace goalswithfriends.Models
         {
            DateTime current = DateTime.Now.AddYears(-13);
            DateTime inp = (DateTime)value;
-            if (current < inp)
+            if (current > inp)
             {
                 return ValidationResult.Success;
             }

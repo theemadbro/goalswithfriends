@@ -113,19 +113,19 @@ namespace goalswithfriends.Controllers
                     List<object> temp = new List<object>();
                     temp.Add(curr);
                     HttpContext.Session.SetObjectAsJson("curr", temp);
-                    return RedirectToAction("Dashboard");
+                    return RedirectToAction("Index");
                 }
                 else
                 {
                     ViewBag.LogError = "The Email or Password was incorrect.";
-                    return View("Index");
+                    return View("login");
                 }
                 
             }
             else 
             {
                 ViewBag.LogError = "Missing Email or Password.";
-                return View("Index");
+                return View("login");
             }
         }
 
@@ -181,7 +181,7 @@ namespace goalswithfriends.Controllers
             else
             {
                 ViewBag.CurrentUser = ret[0];
-                return View("LoginReg");
+                return View("Register");
             }
         }
 
@@ -211,7 +211,7 @@ namespace goalswithfriends.Controllers
         }
 
         [HttpGet]
-        [Route("/test")]
+        [Route("test")]
         public IActionResult Test() {
             List<CurrentUser> ret = HttpContext.Session.GetObjectFromJson<List<CurrentUser>>("curr");
             if (ret[0] == null)
@@ -226,6 +226,21 @@ namespace goalswithfriends.Controllers
 
                 ViewBag.CurrentUser = ret[0];
                 return View();
+            }
+            else
+            {
+                ViewBag.CurrentUser = ret[0];
+                return View();
+            }
+        }
+
+        [HttpGet]
+        [Route("group/create")]
+        public IActionResult NewGroup() {
+            List<CurrentUser> ret = HttpContext.Session.GetObjectFromJson<List<CurrentUser>>("curr");
+            if (ret[0].id == 0)
+            {
+                return RedirectToAction("");
             }
             else
             {
