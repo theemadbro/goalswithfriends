@@ -98,3 +98,6 @@ td {
     height: 150px;
     overflow-y: auto;
 }
+#submitgrp {
+    text-align: right;
+}
