@@ -92,6 +92,43 @@ namespace goalswithfriends.Controllers
                 return View();
             }
         }
+
+        [HttpPost]
+        [Route("login")]
+        public IActionResult ProcessLogin(string inEmail, string inPass)
+        {
+            
+            List<CurrentUser> ret = HttpContext.Session.GetObjectFromJson<List<CurrentUser>>("curr");
+            ViewBag.CurrentUser = ret[0];
+            Users check = _context.users.SingleOrDefault(x => x.email == inEmail);
+            if (check != null && inPass != null)
+            {
+                var hasher = new PasswordHasher<Users>();
+                if(0 != hasher.VerifyHashedPassword(check, check.password, inPass))
+                {
+                    CurrentUser curr = new CurrentUser();
+                    curr.id = check.id;
+                    curr.name = check.first_name+" "+check.last_name;
+                    ViewBag.CurrentUser = curr;
+                    List<object> temp = new List<object>();
+                    temp.Add(curr);
+                    HttpContext.Session.SetObjectAsJson("curr", temp);
+                    return RedirectToAction("Dashboard");
+                }
+                else
+                {
+                    ViewBag.LogError = "The Email or Password was incorrect.";
+                    return View("Index");
+                }
+                
+            }
+            else 
+            {
+                ViewBag.LogError = "Missing Email or Password.";
+                return View("Index");
+            }
+        }
+
         [HttpGet]
         [Route("register")]
         public IActionResult Register()
@@ -127,7 +164,6 @@ namespace goalswithfriends.Controllers
             ViewBag.CurrentUser = ret[0];
             if(ModelState.IsValid)
             {
-                
                 PasswordHasher<Users> Hasher = new PasswordHasher<Users>();
                 inp.password = Hasher.HashPassword(inp, inp.password);
                 inp.privacy = true;
@@ -157,40 +193,6 @@ namespace goalswithfriends.Controllers
             return RedirectToAction("");
         }
         
-        [Route("login")]
-        public IActionResult ProcessLogin(string inEmail, string inPass)
-        {
-            
-            List<CurrentUser> ret = HttpContext.Session.GetObjectFromJson<List<CurrentUser>>("curr");
-            ViewBag.CurrentUser = ret[0];
-            Users check = _context.users.SingleOrDefault(x => x.email == inEmail);
-            if (check != null && inPass != null)
-            {
-                var hasher = new PasswordHasher<Users>();
-                if(0 != hasher.VerifyHashedPassword(check, check.password, inPass))
-                {
-                    CurrentUser curr = new CurrentUser();
-                    curr.id = check.id;
-                    curr.name = check.first_name+" "+check.last_name;
-                    ViewBag.CurrentUser = curr;
-                    List<object> temp = new List<object>();
-                    temp.Add(curr);
-                    HttpContext.Session.SetObjectAsJson("curr", temp);
-                    return RedirectToAction("Dashboard");
-                }
-                else
-                {
-                    ViewBag.LogError = "The Email or Password was incorrect.";
-                    return View("Index");
-                }
-                
-            }
-            else 
-            {
-                ViewBag.LogError = "Missing Email or Password.";
-                return View("Index");
-            }
-        }
 
         [HttpGet]
         [Route("Home")]
