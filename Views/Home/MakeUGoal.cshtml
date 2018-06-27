@@ -1,0 +1,34 @@
+@{
+    ViewData["Title"] = "New Goal";
+}
+
+@model goalswithfriends.Models.Goals
+
+<h1>Make a Goal</h1>
+<hr>
+<form>
+    <table>
+        <tr>
+            <td>Goal:</td>
+            <td><input asp-for="goal"></td>
+            <td><span asp-validation-for="goal"></span></td>
+        </tr>
+        <tr>
+            <td>Description:</td>
+            <td><input asp-for="desc"></td>
+        </tr>
+        <tr>
+            <td>Start Date:</td>
+            <td><input asp-for="startDate"></td>
+        </tr>
+        <tr>
+            <td>End Date:</td>
+            <td><input asp-for="endDate"></td>
+            <td><span asp-validation-for="endDate"></span></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td id="submitgrp"><input type="submit" value="Create Goal"></td>
+        </tr>
+    </table>
+</form>

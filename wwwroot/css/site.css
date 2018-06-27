@@ -74,10 +74,14 @@ h4 {
     height: 300px;
     overflow-y: auto;
 }
+.options {
+    text-align: center;
+}
+.options table {
+    margin-left: 20px;
+}
 .options button {
-    width: 125px;
-    padding: 10px;
-    margin: 5px;
+    width: 100%;
 }
 .profileinfo {
     margin-right: 70px;
@@ -88,7 +92,6 @@ td {
     vertical-align: top;
 }
 .profstuff {
-    /* margin-left: 30px; */
     vertical-align: top;
     display: inline-block;
     width: 45%;
@@ -99,4 +102,20 @@ td {
 }
 #submitgrp {
     text-align: right;
+}
+.userinfo {
+    text-align: center;
+}
+.userinfo h2 {
+    text-align: left;
+    margin-top: 0px;
+}
+.userinfo button {
+    width: 100%;
+}
+#joinform {
+    display: none;
+}
+#cancel {
+    margin-right: 3px;
 }

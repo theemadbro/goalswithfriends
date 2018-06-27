@@ -12,7 +12,7 @@ namespace goalswithfriends.Models
         [Key]
         public int id { get; set; }
 
-
+        [Required]
         public string goal { get; set; }
 
 
@@ -21,10 +21,11 @@ namespace goalswithfriends.Models
 
         public string status { get; set; }
 
-
+        [DataType(DataType.Date)]
         public DateTime startDate { get; set; }
 
-
+        [Required]
+        [DataType(DataType.Date)]
         public DateTime endDate { get; set; }
 
 
