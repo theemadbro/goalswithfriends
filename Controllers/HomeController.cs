@@ -296,7 +296,7 @@ namespace goalswithfriends.Controllers
             else
             {
                 Users showuser = _context.users.Include(u => u.goals).Include(u => u.groups).SingleOrDefault(u => u.id == ret[0].id);
-                ViewBag.profile = showuser;
+                ViewBag.Profile = showuser;
                 ViewBag.CurrentUser = ret[0];
                 return View();
             }

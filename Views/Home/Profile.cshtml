@@ -2,31 +2,23 @@
     ViewData["Title"] = "View Profile";
 }
 
-<h1>User Name</h1>
+<h1>@ViewBag.Profile.username</h1>
 <hr>
-<div class="profileinfo">
+<div class="Profileinfo">
     <!-- FIRST NAME AND BIO ONLY IF THIS ISN'T CURRENT USER -->
     <table>
         <tr>
             <td class="infolabel">Name:</td>
-            <td>First Last</td>
-        </tr>
-        <tr>
-            <td class="infolabel">Birthday:</td>
-            <td>January 1, 2018</td>
-        </tr>
-        <tr>
-            <td class="infolabel">Email:</td>
-            <td>email@site.com</td>
+            <td>@ViewBag.Profile.first_name @ViewBag.Profile.last_name</td>
         </tr>
         <tr>
             <td class="infolabel">Bio:</td>
-            <td><div class="biosec">[BIO]</div></td>
+            <td>@ViewBag.Profile.bio</td>
         </tr>
     </table>
-    <button style="margin-top: 30px;" class="simpleMar btn btn-default btn-lg">Manage Goals</button>
-    <button class="simpleMar btn btn-default btn-lg">Manage Groups</button>
-    <button class="simpleMar btn btn-default btn-lg">Edit Profile</button>
+    <a href=""><button style="margin-top: 30px;" class="simpleMar btn btn-default btn-lg">Manage Goals</button></a>
+    <a href=""><button class="simpleMar btn btn-default btn-lg">Manage Groups</button></a>
+    <a href=""><button class="simpleMar btn btn-default btn-lg">Edit Profile</button></a>
 </div>
 <div class="profstuff">
     <h4>Goals</h4>
