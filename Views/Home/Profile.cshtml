@@ -4,7 +4,7 @@
 
 <h1>@ViewBag.Profile.username</h1>
 <hr>
-<div class="Profileinfo">
+<div class="profileinfo">
     <!-- FIRST NAME AND BIO ONLY IF THIS ISN'T CURRENT USER -->
     <table>
         <tr>
@@ -13,7 +13,7 @@
         </tr>
         <tr>
             <td class="infolabel">Bio:</td>
-            <td>@ViewBag.Profile.bio</td>
+            <td><div class="biosec">@ViewBag.Profile.bio</div></td>
         </tr>
     </table>
     <a href=""><button style="margin-top: 30px;" class="simpleMar btn btn-default btn-lg">Manage Goals</button></a>

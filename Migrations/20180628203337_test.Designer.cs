@@ -11,9 +11,10 @@ using System;
 namespace goalswithfriends.Migrations
 {
     [DbContext(typeof(goalswithfriendsContext))]
-    partial class goalswithfriendsContextModelSnapshot : ModelSnapshot
+    [Migration("20180628203337_test")]
+    partial class test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
