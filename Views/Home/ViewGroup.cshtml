@@ -6,16 +6,19 @@
 <script>
     $(document).ready(function(){
         $('#forgotps').click(function(){
-            alert("Put the password here");
+            alert("@ViewBag.CurrentGroup.password");
         });
     });
 </script>
 
 
-<h1>Group Name</h1>
+<h1>@ViewBag.CurrentGroup.name</h1>
 <h6>Created by: [NAME]</h6>
 <hr class="namediv">
 <div class="left">
+
+    <h3>Description</h3>
+    <p>@ViewBag.CurrentGroup.desc</p>
 
     <h3>Goals</h3>
     <div class="groupgoalslist">
@@ -48,7 +51,10 @@
         <!-- HIDE FIRST BUTTON IF NOT IN GROUP -->
         <button class="simpleMar btn btn-default">Make a Goal</button><br>
         <button class="simpleMar btn btn-default">Leave Group</button><br>
-        <!-- ONLY SHOW IF CURRENT USER IS OWNER OF GROUP -->
-        <button id="forgotps" class="simpleMar btn btn-default btn-sm">Forgot Group Password?</button><br>
+        @{
+            if(ViewBag.CurrentUser.id == ViewBag.CurrentGroup.ownerid && ViewBag.CurrentGroup.password != null) {
+                <button id="forgotps" class="simpleMar btn btn-default btn-sm">Forgot Group Password?</button><br>
+            }
+        }
     </div>
 </div>

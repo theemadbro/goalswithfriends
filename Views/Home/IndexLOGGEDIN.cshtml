@@ -47,10 +47,10 @@
     </div>
     <div class="options">
         <a href="/group/create"><button class="simpleMar btn btn-default">Make a Group</button></a><br>
-        <a><button class="simpleMar btn btn-default">Make a Goal</button></a><br>
+        <a href="/goal/create"><button class="simpleMar btn btn-default">Make a Goal</button></a><br>
         <a><button id="joinpriv" class="simpleMar btn btn-default">Join a Private Group</button></a>
     </div>
-    <form id="joinform"><table>
+    <form id="joinform" action="/joinprivate" method="post"><table>
         <tr>
             <td>Group ID:</td>
             <td><input type="number" name="privid"></td>

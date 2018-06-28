@@ -58,6 +58,11 @@ namespace goalswithfriends.Controllers
                 ViewBag.CurrentUser = ret[0];
                 return View();
             }
+            else  if (ret[0].id == 0)
+            {
+                ViewBag.CurrentUser = ret[0];
+                return View();
+            }
             else
             {
                 ViewBag.CurrentUser = ret[0];
@@ -177,7 +182,7 @@ namespace goalswithfriends.Controllers
                 List<object> temp = new List<object>();
                 temp.Add(newcurr);
                 HttpContext.Session.SetObjectAsJson("curr", temp);
-                return RedirectToAction("Home");
+                return RedirectToAction("Index");
             }
             else
             {
@@ -208,6 +213,41 @@ namespace goalswithfriends.Controllers
             {
                 ViewBag.CurrentUser = ret[0];
                 return View();
+            }
+        }
+
+        [HttpPost]
+        [Route("/joinprivate")]
+        public IActionResult JoinPrivate(int privid, string privpass) {
+            List<CurrentUser> ret = HttpContext.Session.GetObjectFromJson<List<CurrentUser>>("curr");
+            ViewBag.CurrentUser = ret[0];
+            if (ret[0].id == 0)
+            {
+                return RedirectToAction("");
+            }
+            else
+            {
+                Groups check = _context.groups.SingleOrDefault(x => x.id == privid);
+                if (check != null && privpass != null)
+                {
+                    if(check.password == privpass)
+                    {
+                        Members memba = new Members();
+                        memba.groupid = check.id;
+                        memba.memberid = ret[0].id;
+                        _context.Add(memba);
+                        _context.SaveChanges();
+                        return Redirect($"/group/{check.id}");
+                    }
+                    else
+                    {
+                        return RedirectToAction("");
+                    }    
+                }
+                else 
+                {
+                    return RedirectToAction("");
+                }
             }
         }
 
@@ -295,19 +335,92 @@ namespace goalswithfriends.Controllers
             }
             else
             {
-                Users showuser = _context.users.Include(u => u.goals).Include(u => u.groups).SingleOrDefault(u => u.id == ret[0].id);
+                Users showuser = _context.users.Include(u => u.goals).Include(u => u.groups).SingleOrDefault(u => u.id == id);
                 ViewBag.Profile = showuser;
                 ViewBag.CurrentUser = ret[0];
                 return View();
             }
         }
 
-        // [HttpGet]
-        // [Route("profile/{id}/managegoals")]
-        // public IActionResult ManageGoals(int id)
-        // {
+        [HttpGet]
+        [Route("profile/{id}/managegoals")]
+        public IActionResult ManageGoals(int id)
+        {
+            List<CurrentUser> ret = HttpContext.Session.GetObjectFromJson<List<CurrentUser>>("curr");
+            if (ret[0] == null)
+            {
+                CurrentUser newcurr = new CurrentUser();
+                newcurr.id = 0;
+                ViewBag.CurrentUser = newcurr;
+                return RedirectToAction("");
+            }
+            else if (ret[0].id == 0)
+            {
+                return RedirectToAction("");
+            }
+            else if(ret[0].id != id)
+            {
+                return RedirectToAction("");
+            }
+            else
+            {
+                ViewBag.CurrentUser = ret[0];
+                return View();
+            }
+        }
 
-        // }
+        [HttpGet]
+        [Route("profile/{id}/managegroups")]
+        public IActionResult ManageGroups(int id)
+        {
+            List<CurrentUser> ret = HttpContext.Session.GetObjectFromJson<List<CurrentUser>>("curr");
+            if (ret[0] == null)
+            {
+                CurrentUser newcurr = new CurrentUser();
+                newcurr.id = 0;
+                ViewBag.CurrentUser = newcurr;
+                return RedirectToAction("");
+            }
+            else if (ret[0].id == 0)
+            {
+                return RedirectToAction("");
+            }
+            else if(ret[0].id != id)
+            {
+                return RedirectToAction("");
+            }
+            else
+            {
+                ViewBag.CurrentUser = ret[0];
+                return View();
+            }
+        }
+
+        [HttpGet]
+        [Route("/profile/{id}/edit")]
+        public IActionResult EditProfile(int id) {
+            List<CurrentUser> ret = HttpContext.Session.GetObjectFromJson<List<CurrentUser>>("curr");
+            if (ret[0] == null)
+            {
+                CurrentUser newcurr = new CurrentUser();
+                newcurr.id = 0;
+                ViewBag.CurrentUser = newcurr;
+                return RedirectToAction("");
+            }
+            else if (ret[0].id == 0)
+            {
+                return RedirectToAction("");
+            }
+            else if(ret[0].id != id)
+            {
+                return RedirectToAction("");
+            }
+            else
+            {
+                ViewBag.CurrentUser = ret[0];
+                return View("UpdateInfo");
+            }
+        }
 
         [HttpGet]
         [Route("group/{groupid}")]
@@ -324,6 +437,21 @@ namespace goalswithfriends.Controllers
                 ViewBag.CurrentGroup = curr;
                 ViewBag.CurrentUser = ret[0];
                 return View();
+            }
+        }
+
+        [HttpGet]
+        [Route("goal/create")]
+        public IActionResult NewGoal() {
+            List<CurrentUser> ret = HttpContext.Session.GetObjectFromJson<List<CurrentUser>>("curr");
+            if (ret[0].id == 0)
+            {
+                return RedirectToAction("");
+            }
+            else
+            {
+                ViewBag.CurrentUser = ret[0];
+                return View("MakeUGoal");
             }
         }
 

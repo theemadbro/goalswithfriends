@@ -177,3 +177,6 @@ h6 {
     max-height: 200px;
     overflow-y: auto;
 }
+.infolabel2 {
+    vertical-align: top;
+}
