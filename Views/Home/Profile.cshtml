@@ -2,31 +2,31 @@
     ViewData["Title"] = "View Profile";
 }
 
-<h1>User Name</h1>
+<h1>@ViewBag.profile.username</h1>
 <hr>
 <div class="profileinfo">
     <!-- FIRST NAME AND BIO ONLY IF THIS ISN'T CURRENT USER -->
     <table>
         <tr>
             <td class="infolabel">Name:</td>
-            <td>First Last</td>
+            <td>@ViewBag.profile.first_name @ViewBag.profile.last_name</td>
         </tr>
         <tr>
             <td class="infolabel">Birthday:</td>
-            <td>January 1, 2018</td>
+            <td>@ViewBag.profile.birthday.ToString("MMM dd, yyyy")</td>
         </tr>
         <tr>
             <td class="infolabel">Email:</td>
-            <td>email@site.com</td>
+            <td>@ViewBag.profile.email</td>
         </tr>
         <tr>
             <td class="infolabel">Bio:</td>
-            <td>[BIO]</td>
+            <td>@ViewBag.profile.bio</td>
         </tr>
     </table>
-    <button style="margin-top: 30px;" class="simpleMar btn btn-default btn-lg">Manage Goals</button>
-    <button class="simpleMar btn btn-default btn-lg">Manage Groups</button>
-    <button class="simpleMar btn btn-default btn-lg">Edit Profile</button>
+    <a><button style="margin-top: 30px;" class="simpleMar btn btn-default btn-lg">Manage Goals</button></a>
+    <a><button class="simpleMar btn btn-default btn-lg">Manage Groups</button></a>
+    <a><button class="simpleMar btn btn-default btn-lg">Edit Profile</button></a>
 </div>
 <div class="profstuff">
     <h4>Goals</h4>

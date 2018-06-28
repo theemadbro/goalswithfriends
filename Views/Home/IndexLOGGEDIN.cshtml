@@ -1,5 +1,5 @@
 @{
-    ViewData["Title"] = "Welcome!";
+    ViewData["Title"] = "Home!";
 }
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -46,25 +46,23 @@
         This website was created with the intention to allow friends from all over the globe to make goals with each other and better themselves together. Having a place to record one's goals helps accountability, not only so that the person who created it can have a visual reminder, but so their friends may help keep them on track as well. Joining GwF will allow you to create both public and private groups, make any number of goals for yourself, and help strengthen your network of support as you reach for goals you might never have thought possible until now.
     </div>
     <div class="options">
-        <button class="simpleMar btn btn-default">Make a Group</button><br>
-        <button class="simpleMar btn btn-default">Make a Goal</button><br>
-        <button id="joinpriv" class="simpleMar btn btn-default">Join a Private Group</button>
-        </div>
-        <form id="joinform">
-            <table>
-                <tr>
-                    <td>Group ID:</td>
-                    <td><input type="number" name="privid"></td>
-                </tr>
-                <tr>
-                    <td>Password:</td>
-                    <td><input type="password" name="privpass"></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td id="submitgrp"><input type="submit" id="cancel" value="Cancel"><input type="submit" value="Join"></td>
-                </tr>
-            </table>
-        </form>
+        <a href="/group/create"><button class="simpleMar btn btn-default">Make a Group</button></a><br>
+        <a><button class="simpleMar btn btn-default">Make a Goal</button></a><br>
+        <a><button id="joinpriv" class="simpleMar btn btn-default">Join a Private Group</button></a>
+    </div>
+    <form id="joinform"><table>
+        <tr>
+            <td>Group ID:</td>
+            <td><input type="number" name="privid"></td>
+        </tr>
+        <tr>
+            <td>Password:</td>
+            <td><input type="password" name="privpass"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td id="submitgrp"><input type="submit" id="cancel" value="Cancel"><input type="submit" value="Join"></td>
+        </tr>
+    </table></form>
 
 </div>

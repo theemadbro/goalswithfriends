@@ -61,7 +61,7 @@ namespace goalswithfriends.Controllers
             else
             {
                 ViewBag.CurrentUser = ret[0];
-                return View();
+                return View("IndexLOGGEDIN");
             }
         }
 
@@ -109,6 +109,7 @@ namespace goalswithfriends.Controllers
                     CurrentUser curr = new CurrentUser();
                     curr.id = check.id;
                     curr.name = check.first_name+" "+check.last_name;
+                    curr.username = check.username;
                     ViewBag.CurrentUser = curr;
                     List<object> temp = new List<object>();
                     temp.Add(curr);
@@ -294,6 +295,8 @@ namespace goalswithfriends.Controllers
             }
             else
             {
+                Users showuser = _context.users.Include(u => u.goals).Include(u => u.groups).SingleOrDefault(u => u.id == ret[0].id);
+                ViewBag.profile = showuser;
                 ViewBag.CurrentUser = ret[0];
                 return View();
             }
@@ -301,7 +304,7 @@ namespace goalswithfriends.Controllers
 
         [HttpGet]
         [Route("group/{groupid}")]
-        public IActionResult ShowGroup(int groupid)
+        public IActionResult ViewGroup(int groupid)
         {
             List<CurrentUser> ret = HttpContext.Session.GetObjectFromJson<List<CurrentUser>>("curr");
             if (ret[0].id == 0)
