@@ -11,7 +11,7 @@ using System;
 namespace goalswithfriends.Migrations
 {
     [DbContext(typeof(goalswithfriendsContext))]
-    [Migration("20180626205553_Migrations")]
+    [Migration("20180628224901_Migrations")]
     partial class Migrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,7 +34,8 @@ namespace goalswithfriends.Migrations
 
                     b.Property<DateTime>("endDate");
 
-                    b.Property<string>("goal");
+                    b.Property<string>("goal")
+                        .IsRequired();
 
                     b.Property<int>("groupid");
 
@@ -54,7 +55,7 @@ namespace goalswithfriends.Migrations
 
                     b.HasIndex("usersid");
 
-                    b.ToTable("Goals");
+                    b.ToTable("goals");
                 });
 
             modelBuilder.Entity("goalswithfriends.Models.Groups", b =>
@@ -83,7 +84,7 @@ namespace goalswithfriends.Migrations
 
                     b.HasIndex("ownerid");
 
-                    b.ToTable("Groups");
+                    b.ToTable("groups");
                 });
 
             modelBuilder.Entity("goalswithfriends.Models.Members", b =>
@@ -91,9 +92,17 @@ namespace goalswithfriends.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("created_at")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.ComputedColumn);
+
                     b.Property<int>("groupid");
 
                     b.Property<int>("memberid");
+
+                    b.Property<DateTime>("updated_at")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.ComputedColumn);
 
                     b.HasKey("id");
 
@@ -101,7 +110,7 @@ namespace goalswithfriends.Migrations
 
                     b.HasIndex("memberid");
 
-                    b.ToTable("Members");
+                    b.ToTable("members");
                 });
 
             modelBuilder.Entity("goalswithfriends.Models.Users", b =>

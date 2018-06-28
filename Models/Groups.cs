@@ -16,8 +16,8 @@ namespace goalswithfriends.Models
         public string name { get; set; }
 
 
+        [ForeignKey("users")]
         public int ownerid { get; set; }
-        [ForeignKey("ownerid")]
         public Users owner { get; set; }
 
 

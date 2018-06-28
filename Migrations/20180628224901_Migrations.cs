@@ -34,7 +34,7 @@ namespace goalswithfriends.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Groups",
+                name: "groups",
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
@@ -50,9 +50,9 @@ namespace goalswithfriends.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Groups", x => x.id);
+                    table.PrimaryKey("PK_groups", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Groups_users_ownerid",
+                        name: "FK_groups_users_ownerid",
                         column: x => x.ownerid,
                         principalTable: "users",
                         principalColumn: "id",
@@ -60,7 +60,7 @@ namespace goalswithfriends.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Goals",
+                name: "goals",
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
@@ -69,7 +69,7 @@ namespace goalswithfriends.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.ComputedColumn),
                     desc = table.Column<string>(nullable: true),
                     endDate = table.Column<DateTime>(nullable: false),
-                    goal = table.Column<string>(nullable: true),
+                    goal = table.Column<string>(nullable: false),
                     groupid = table.Column<int>(nullable: false),
                     startDate = table.Column<DateTime>(nullable: false),
                     status = table.Column<string>(nullable: true),
@@ -79,15 +79,15 @@ namespace goalswithfriends.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Goals", x => x.id);
+                    table.PrimaryKey("PK_goals", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Goals_Groups_groupid",
+                        name: "FK_goals_groups_groupid",
                         column: x => x.groupid,
-                        principalTable: "Groups",
+                        principalTable: "groups",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Goals_users_usersid",
+                        name: "FK_goals_users_usersid",
                         column: x => x.usersid,
                         principalTable: "users",
                         principalColumn: "id",
@@ -95,25 +95,29 @@ namespace goalswithfriends.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Members",
+                name: "members",
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    created_at = table.Column<DateTime>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.ComputedColumn),
                     groupid = table.Column<int>(nullable: false),
-                    memberid = table.Column<int>(nullable: false)
+                    memberid = table.Column<int>(nullable: false),
+                    updated_at = table.Column<DateTime>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.ComputedColumn)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Members", x => x.id);
+                    table.PrimaryKey("PK_members", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Members_Groups_groupid",
+                        name: "FK_members_groups_groupid",
                         column: x => x.groupid,
-                        principalTable: "Groups",
+                        principalTable: "groups",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Members_users_memberid",
+                        name: "FK_members_users_memberid",
                         column: x => x.memberid,
                         principalTable: "users",
                         principalColumn: "id",
@@ -121,41 +125,41 @@ namespace goalswithfriends.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Goals_groupid",
-                table: "Goals",
+                name: "IX_goals_groupid",
+                table: "goals",
                 column: "groupid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Goals_usersid",
-                table: "Goals",
+                name: "IX_goals_usersid",
+                table: "goals",
                 column: "usersid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Groups_ownerid",
-                table: "Groups",
+                name: "IX_groups_ownerid",
+                table: "groups",
                 column: "ownerid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Members_groupid",
-                table: "Members",
+                name: "IX_members_groupid",
+                table: "members",
                 column: "groupid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Members_memberid",
-                table: "Members",
+                name: "IX_members_memberid",
+                table: "members",
                 column: "memberid");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Goals");
+                name: "goals");
 
             migrationBuilder.DropTable(
-                name: "Members");
+                name: "members");
 
             migrationBuilder.DropTable(
-                name: "Groups");
+                name: "groups");
 
             migrationBuilder.DropTable(
                 name: "users");

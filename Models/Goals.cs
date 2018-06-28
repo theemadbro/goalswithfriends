@@ -29,13 +29,13 @@ namespace goalswithfriends.Models
         public DateTime endDate { get; set; }
 
 
+        [ForeignKey("users")]
         public int usersid { get; set; }
-        [ForeignKey("usersid")]
         public Users user { get; set; }
 
 
+        [ForeignKey("groups")]
         public int groupid { get; set; }
-        [ForeignKey("groupid")]
         public Groups group { get; set; }
 
         
