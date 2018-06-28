@@ -285,8 +285,8 @@ namespace goalswithfriends.Controllers
         
 
         [HttpGet]
-        [Route("profile/{user}")]
-        public IActionResult Profile(string user)
+        [Route("profile/{id}")]
+        public IActionResult Profile(int id)
         {
             List<CurrentUser> ret = HttpContext.Session.GetObjectFromJson<List<CurrentUser>>("curr");
             if (ret[0].id == 0)
@@ -301,6 +301,13 @@ namespace goalswithfriends.Controllers
                 return View();
             }
         }
+
+        // [HttpGet]
+        // [Route("profile/{id}/managegoals")]
+        // public IActionResult ManageGoals(int id)
+        // {
+
+        // }
 
         [HttpGet]
         [Route("group/{groupid}")]
@@ -319,6 +326,7 @@ namespace goalswithfriends.Controllers
                 return View();
             }
         }
+
 
         
 
