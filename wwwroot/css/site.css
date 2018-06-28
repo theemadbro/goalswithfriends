@@ -102,7 +102,7 @@ td {
     width: 45%;
 }
 .profstuff ul {
-    height: 150px;
+    height: 140px;
     overflow-y: auto;
 }
 #submitgrp {
@@ -130,4 +130,46 @@ td {
 .namediv {
     margin-top: 5px;
     margin-bottom: 5px;
+}
+.infolabel {
+    font-weight: bold;
+}
+h6 {
+    margin-left: 40px;
+}
+.groupgoalslist {
+    height: 320px;
+    overflow-y: auto;
+}
+.userssec {
+    text-align: center;
+}
+.userssec ul {
+    margin-left: -36px;
+    display: inline-block;
+    text-align: left;
+    list-style-type: none;
+}
+#forgotps {
+    width: 250px;
+    margin-top: 38px;
+}
+.manage td, th {
+    text-align: center;
+    vertical-align: middle;
+    font-size: 16px;
+    border-bottom: 1px solid #ccc;
+}
+.manage {
+    width: 40%;
+    text-align: center;
+    border-collapse: collapse;
+}
+.managediv {
+    height: 350px;
+    overflow-y: auto;
+}
+#uslist {
+    height: 380px;
+    overflow-y: auto;    
 }
