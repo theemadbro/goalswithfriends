@@ -1,22 +1,57 @@
 @{
     ViewData["Title"] = "Manage Goals";
 }
+@model goalswithfriends.Models.Goals
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-<h1>Manage Goals</h1>
-<hr>
-<div class="managediv">
-    <table class="manage">
-    <tr>
-        <th>Goal</th>
-        <th>Start Date</th>
-        <th>End Date</th>
-        <th></th>
-    </tr>
-    <tr>
-        <td><a href="/">[GOAL]</a></td>
-        <td>[DATE]</td>
-        <td>[DATE]</td>        
-        <td><button class="simpleMar btn btn-default">Delete</button></td>
-    </tr>
-</table>
+<div class="left">
+    <h1>Manage Goals</h1>
+    <hr>
+    <div>
+        <table class="table table-striped table-hover">
+        <tr>
+            <th>Goal</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th></th>
+        </tr>
+        <tr>
+            <td class="mid"><a href="/">[GOAL]</a></td>
+            <td class="mid">[DATE]</td>
+            <td class="mid">[DATE]</td>        
+            <td class="mid"><button class="simpleMar btn btn-default">Delete</button></td>
+        </tr>
+    </table>
+    </div>
+</div>
+
+<div class="right">
+    <h1>Make a Goal</h1>
+    <hr>
+    <form>
+        <table>
+            <tr>
+                <td>Goal:</td>
+                <td><input asp-for="goal"></td>
+                <td><span asp-validation-for="goal"></span></td>
+            </tr>
+            <tr>
+                <td>Description:</td>
+                <td><input asp-for="desc"></td>
+            </tr>
+            <tr>
+                <td>Start Date:</td>
+                <td><input asp-for="startDate"></td>
+            </tr>
+            <tr>
+                <td>End Date:</td>
+                <td><input asp-for="endDate"></td>
+                <td><span asp-validation-for="endDate"></span></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td id="submitgrp"><input type="submit" value="Create Goal"></td>
+            </tr>
+        </table>
+        </form>
 </div>
