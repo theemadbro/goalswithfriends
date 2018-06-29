@@ -35,10 +35,15 @@
     <div class="groups">
         <h3>All Public Groups</h3>
         <div class="groupslist">
-            <ul>
-                <li><h4>[GROUP NAME]</h4> - <span class="grpmb">[COUNT] members</span></li>
-            </ul>
-        </div>
+                <ul>
+                    @{
+                        foreach (var x in @ViewBag.Groups)
+                        {
+                            <li><h4>@x.name</h4> - <span class="grpmb">@x.members.Count members</span></li>
+                        }
+                    }
+                </ul>
+            </div>
     </div>
 </div>
 <div class="right">

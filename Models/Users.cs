@@ -117,10 +117,10 @@ namespace goalswithfriends.Models
         public List<Groups> groups { get; set; }
 
 
-        public List<Goals> goals { get; set; }
+        public List<GoalsU> goals { get; set; }
         public Users()
         {
-            goals = new List<Goals>();
+            goals = new List<GoalsU>();
             groups = new List<Groups>();
         }
 

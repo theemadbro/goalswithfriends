@@ -1,7 +1,7 @@
 @{
     ViewData["Title"] = "Manage Goals";
 }
-@model goalswithfriends.Models.Goals
+@model goalswithfriends.Models.GoalsU
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <div class="left">
@@ -15,12 +15,17 @@
             <th>End Date</th>
             <th></th>
         </tr>
-        <tr>
-            <td class="mid"><a href="/">[GOAL]</a></td>
-            <td class="mid">[DATE]</td>
-            <td class="mid">[DATE]</td>        
-            <td class="mid"><button class="simpleMar btn btn-default">Delete</button></td>
-        </tr>
+        @{
+            foreach (var x in @ViewBag.UserGoals)
+            {
+                <tr>
+                    <td class="mid"><a href="/profile/@x.usersid/@x.id">@x.goal</a></td>
+                    <td class="mid">@x.startDate.ToString("MMM dd, yyyy")</td>
+                    <td class="mid">@x.endDate.ToString("MMM dd, yyyy")</td>        
+                    <td class="mid"><button class="simpleMar btn btn-default">Delete</button></td>
+                </tr>
+            }
+        }
     </table>
     </div>
 </div>
