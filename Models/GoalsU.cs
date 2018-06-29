@@ -6,8 +6,7 @@ using System.Linq;
 
 namespace goalswithfriends.Models
 {
-    
-    public class Goals
+    public class GoalsU : IValidatableObject
     {
         [Key]
         public int id { get; set; }
@@ -21,22 +20,31 @@ namespace goalswithfriends.Models
 
         public string status { get; set; }
 
-        [DataType(DataType.Date)]
+
+        [Required(ErrorMessage="Required")]
+        [DataType(DataType.Date, ErrorMessage="Input required!")]
         public DateTime startDate { get; set; }
 
-        [Required]
-        [DataType(DataType.Date)]
+
+        [Required(ErrorMessage="Required")]
+        [DataType(DataType.Date, ErrorMessage="Input required!")]
         public DateTime endDate { get; set; }
+
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (endDate < startDate)
+            {
+                yield return 
+                    new ValidationResult(errorMessage: "Start Date can't be after End Date!",
+                                        memberNames: new[] { "endDate" });
+            }
+        }
 
 
         [ForeignKey("users")]
         public int usersid { get; set; }
         public Users user { get; set; }
-
-
-        [ForeignKey("groups")]
-        public int groupid { get; set; }
-        public Groups group { get; set; }
 
         
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]

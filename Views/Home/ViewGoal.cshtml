@@ -6,29 +6,23 @@
     <table>
         <tr>
             <td class="infolabel">Goal:</td>
-            <td>Goal name n stuff</td>
-        </tr>
-        <tr>
-            <td class="infolabel">Start Date:</td>
-            <td>[DATE or N/A]</td>
-        </tr>
-        <tr>
-            <td class="infolabel">End Date:</td>
-            <td>[DATE]</td>
-        </tr>
-        <tr>
-            <td class="infolabel">Created By:</td>
-            <td>[AUTHOR]</td>
-        </tr>
-        <tr>
-            <td class="infolabel">Group (if applicable):</td>
-            <td>[GROUP NAME]</td>
+            <td>@ViewBag.Profile.goal</td>
         </tr>
         <tr>
             <td class="infolabel">Description:</td>
-            <td>[DESC]</td>
+            <td>@ViewBag.Profile.desc</td>
+        </tr>
+        <tr>
+            <td class="infolabel">Start Date:</td>
+            <td>@ViewBag.Profile.startDate.ToString("MMM dd, yyyy")</td>
+        </tr>
+        <tr>
+            <td class="infolabel">End Date:</td>
+            <td>@ViewBag.Profile.endDate.ToString("MMM dd, yyyy")</td>
         </tr>
     </table>
     <!-- HIDE IF THIS GOAL DOES NOT BELONG TO CURRENT USER -->
-    <button style="margin-top: 30px;" class="simpleMar btn btn-default btn-lg">Delete Goal</button>
+    <form action="/profile/@ViewBag.Profile.usersid/@ViewBag.Profile.id/delete" method="POST">
+        <button style="margin-top: 30px;" class="simpleMar btn btn-default btn-lg">Delete Goal</button>
+    </form>
 </div>

@@ -29,10 +29,12 @@ namespace goalswithfriends.Models
         public string desc { get; set; }
 
 
+        public List<GoalsG> goals { get; set; }
         public List<Members> members { get; set; }
         public Groups()
         {
             members = new List<Members>();
+            goals = new List<GoalsG>();
         }
 
 

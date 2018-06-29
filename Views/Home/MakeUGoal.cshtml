@@ -2,14 +2,15 @@
     ViewData["Title"] = "New Goal";
 }
 
-@model goalswithfriends.Models.Goals
+@model goalswithfriends.Models.GoalsU
 
 <h1>Make a Goal</h1>
 <hr>
-<form>
+<form action="/goal/create" method="POST">
+    
     <table>
         <tr>
-            <td>Goal:</td>
+            <td>Goal*:</td>
             <td><input asp-for="goal"></td>
             <td><span asp-validation-for="goal"></span></td>
         </tr>
@@ -22,13 +23,13 @@
             <td><input asp-for="startDate"></td>
         </tr>
         <tr>
-            <td>End Date:</td>
+            <td>End Date*:</td>
             <td><input asp-for="endDate"></td>
             <td><span asp-validation-for="endDate"></span></td>
         </tr>
         <tr>
             <td></td>
-            <td id="submitgrp"><input type="submit" value="Create Goal"></td>
+            <td id="submitgrp"><span>Required*</span> <input type="submit" value="Create Goal"></td>
         </tr>
     </table>
 </form>
