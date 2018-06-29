@@ -1,34 +1,36 @@
 @{
     ViewData["Title"] = "Edit Profile";
 }
+@model goalswithfriends.Models.UpdateUser
 
 <h1>Edit Profile:</h1>
 <hr>
-<form>
+<form action="update" method="POST">
     <table>
         <tr>
-            <td>Username:</td>
-            <td><input type="text" name="username"></td>
-        </tr>
-        <tr>
             <td>First Name:</td>
-            <td><input type="text" name="first_name"></td>
+            <td><input asp-for="first_name" value="@ViewBag.Profile.first_name"></td>
+            <td><span asp-validation-for="first_name"></span></td>
         </tr>
         <tr>
             <td>Last Name:</td>
-            <td><input type="text" name="last_name"></td>
+            <td><input asp-for="last_name" value="@ViewBag.Profile.last_name"></td>
+            <td><span asp-validation-for="last_name"></span></td>
         </tr>
         <tr>
-            <td>Birthday:</td>
-            <td><input type="date" name="birthday"></td>
-        </tr>
-        <tr>
-            <td>Email:</td>
-            <td><input type="text" name="email"></td>
+            <td>Private:</td>
+            @{
+                if( ViewBag.Profile.privacy == true) {
+                    <td><input asp-for="privacy" checked></input></td>
+                }
+                else {
+                    <td><input asp-for="privacy"></input></td>
+                }
+            }
         </tr>
         <tr>
             <td class="infolabel2">Biography:</td>
-            <td><textarea name="bio" rows="4" cols="20"></textarea></td>
+            <td><textarea name="bio" rows="4" cols="20">@ViewBag.Profile.bio</textarea></td>
         </tr>
         <tr>
             <td></td>

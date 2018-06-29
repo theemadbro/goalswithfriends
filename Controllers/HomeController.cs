@@ -220,14 +220,19 @@ namespace goalswithfriends.Controllers
         [Route("/joinprivate")]
         public IActionResult JoinPrivate(int privid, string privpass) {
             List<CurrentUser> ret = HttpContext.Session.GetObjectFromJson<List<CurrentUser>>("curr");
-            ViewBag.CurrentUser = ret[0];
-            if (ret[0].id == 0)
+            if (ret[0].id == 0 || ret[0] == null)
             {
+                ViewBag.CurrentUser = ret[0];
                 return RedirectToAction("");
             }
             else
             {
+                ViewBag.CurrentUser = ret[0];
                 Groups check = _context.groups.SingleOrDefault(x => x.id == privid);
+                Members memcheck = _context.members.SingleOrDefault(g => g.groupid == check.id && g.memberid == ret[0].id);
+                if(memcheck != null) {
+                    return RedirectToAction("");
+                }
                 if (check != null && privpass != null)
                 {
                     if(check.password == privpass)
@@ -328,14 +333,22 @@ namespace goalswithfriends.Controllers
         [Route("profile/{id}")]
         public IActionResult Profile(int id)
         {
+            Users showuser = _context.users.Include(u => u.goals).Include(u => u.groups).SingleOrDefault(u => u.id == id);
             List<CurrentUser> ret = HttpContext.Session.GetObjectFromJson<List<CurrentUser>>("curr");
-            if (ret[0].id == 0)
+            if(showuser.privacy == true)
             {
-                return RedirectToAction("");
+                if (ret[0].id == 0 || ret[0] == null)
+                {
+                    return RedirectToAction("");
+                }
+                else
+                {
+                    ViewBag.Profile = showuser;
+                    ViewBag.CurrentUser = ret[0];
+                    return View();
+                }
             }
-            else
-            {
-                Users showuser = _context.users.Include(u => u.goals).Include(u => u.groups).SingleOrDefault(u => u.id == id);
+            else {
                 ViewBag.Profile = showuser;
                 ViewBag.CurrentUser = ret[0];
                 return View();
@@ -407,18 +420,52 @@ namespace goalswithfriends.Controllers
                 ViewBag.CurrentUser = newcurr;
                 return RedirectToAction("");
             }
-            else if (ret[0].id == 0)
-            {
-                return RedirectToAction("");
-            }
-            else if(ret[0].id != id)
+            else if (ret[0].id == 0 || ret[0].id != id)
             {
                 return RedirectToAction("");
             }
             else
             {
+                Users showuser = _context.users.Include(u => u.goals).Include(u => u.groups).SingleOrDefault(u => u.id == id);
+                ViewBag.Profile = showuser;
                 ViewBag.CurrentUser = ret[0];
+
                 return View("UpdateInfo");
+            }
+        }
+
+        [HttpPost]
+        [Route("/profile/{id}/update")]
+        public IActionResult UpdateProfile(int id, UpdateUser inp, string bio) {
+            List<CurrentUser> ret = HttpContext.Session.GetObjectFromJson<List<CurrentUser>>("curr");
+            Users showuser = _context.users.Include(u => u.goals).Include(u => u.groups).SingleOrDefault(u => u.id == id);            
+            if (ret[0] == null)
+            {
+                return RedirectToAction("");
+            }
+            else if (ret[0].id == 0 || ret[0].id != id)
+            {
+                return RedirectToAction("");
+            }
+            else
+            {
+                if(ModelState.IsValid)
+                {
+                    Users check = _context.users.SingleOrDefault(x => x.id == id);
+                    check.first_name = inp.first_name;
+                    check.last_name = inp.last_name;
+                    check.privacy = inp.privacy;
+                    check.bio = bio;
+                    _context.SaveChanges();
+                    return Redirect($"/profile/{id}");
+                }
+                else
+                {
+                    ViewBag.Profile = showuser;
+                    ViewBag.CurrentUser = ret[0];
+                    return View("UpdateInfo");
+                }
+
             }
         }
 
@@ -427,16 +474,118 @@ namespace goalswithfriends.Controllers
         public IActionResult ViewGroup(int groupid)
         {
             List<CurrentUser> ret = HttpContext.Session.GetObjectFromJson<List<CurrentUser>>("curr");
-            if (ret[0].id == 0)
-            {
+            ViewBag.UserLevel = 2;
+            if(ret[0] == null || ret[0].id == 0) {
+                ViewBag.UserLevel = 0;
+            }
+            Groups curr = _context.groups.SingleOrDefault(g => g.id == groupid);
+            if(curr == null) {
                 return RedirectToAction("");
             }
-            else
-            {
-                Groups curr = _context.groups.SingleOrDefault(g => g.id == groupid);
+            Users owner = _context.users.SingleOrDefault(u => u.id == curr.ownerid);
+            Members check = _context.members.SingleOrDefault(g => g.groupid == groupid && g.memberid == ret[0].id);
+            if(check == null) {
+                ViewBag.UserLevel = 1;
+            }
+            List<Members> memlist = _context.members.Where(g => g.groupid == groupid).Include(m => m.member).ToList();
+
+            List<Members> sorted = memlist.OrderByDescending(o => o.created_at).Take(5).ToList();
+
+            if(curr.password != null && check == null) {
+                return RedirectToAction("");
+            }
+            else {
+                ViewBag.Owner = owner;
+                ViewBag.RecMems = sorted;
                 ViewBag.CurrentGroup = curr;
                 ViewBag.CurrentUser = ret[0];
                 return View();
+            }
+        }
+
+        [HttpGet]
+        [Route("/group/{groupid}/join")]
+        public IActionResult JoinGroup(int groupid) {
+            List<CurrentUser> ret = HttpContext.Session.GetObjectFromJson<List<CurrentUser>>("curr");
+            if (ret[0].id == 0 || ret[0] == null)
+            {
+                ViewBag.CurrentUser = ret[0];
+                return RedirectToAction("");
+            }
+            else {
+                ViewBag.CurrentUser = ret[0];
+                Groups check = _context.groups.SingleOrDefault(x => x.id == groupid);
+                if (check != null || check.password == null)
+                {
+                    Members memba = new Members();
+                    memba.groupid = check.id;
+                    memba.memberid = ret[0].id;
+                    _context.Add(memba);
+                    _context.SaveChanges();
+                    return Redirect($"/group/{groupid}");  
+                }
+                else 
+                {
+                    return Redirect($"/group/{groupid}");
+                }
+            }
+        }
+
+        [HttpGet]
+        [Route("/group/{groupid}/leave")]
+        public IActionResult LeaveGroup(int groupid) {
+            List<CurrentUser> ret = HttpContext.Session.GetObjectFromJson<List<CurrentUser>>("curr");
+            if (ret[0].id == 0 || ret[0] == null)
+            {
+                ViewBag.CurrentUser = ret[0];
+                return RedirectToAction("");
+            }
+            else {
+                ViewBag.CurrentUser = ret[0];
+                Groups check = _context.groups.SingleOrDefault(x => x.id == groupid);
+                if(check != null) {
+                    if(check.ownerid == ret[0].id) {
+                        return Redirect($"/group/{groupid}");
+                    }
+                    else {
+                        Members torem = _context.members.SingleOrDefault(m => m.memberid == ret[0].id && m.groupid == groupid);
+                        _context.members.Remove(torem);
+                        _context.SaveChanges();
+                        return Redirect($"/group/{groupid}");
+                    }
+                }
+                else {
+                    return RedirectToAction("");
+                }
+            }
+        }
+
+        [HttpGet]
+        [Route("/group/{groupid}/delete")]
+        public IActionResult DelGroup(int groupid) {
+            List<CurrentUser> ret = HttpContext.Session.GetObjectFromJson<List<CurrentUser>>("curr");
+            if (ret[0].id == 0 || ret[0] == null)
+            {
+                ViewBag.CurrentUser = ret[0];
+                return RedirectToAction("");
+            }
+            else {
+                ViewBag.CurrentUser = ret[0];
+                Groups check = _context.groups.SingleOrDefault(x => x.id == groupid);
+                if(check != null) {
+                    if(check.ownerid != ret[0].id) {
+                        return Redirect($"/group/{groupid}");
+                    }
+                    else {
+                        Groups torem = _context.groups.SingleOrDefault(m => m.id == groupid);
+                        _context.groups.Remove(torem);
+                        _context.SaveChanges();
+                        return RedirectToAction("");
+                    }
+                }
+                else {
+                    return RedirectToAction("");
+                }
             }
         }
 
@@ -452,6 +601,33 @@ namespace goalswithfriends.Controllers
             {
                 ViewBag.CurrentUser = ret[0];
                 return View("MakeUGoal");
+            }
+        }
+
+        [HttpGet]
+        [Route("/group/{groupid}/all")]
+        public IActionResult ViewAll(int groupid) {
+            List<CurrentUser> ret = HttpContext.Session.GetObjectFromJson<List<CurrentUser>>("curr");
+            if (ret[0] == null)
+            {
+                return RedirectToAction("");
+            }
+            List<Members> memlist = _context.members.Where(g => g.groupid == groupid).Include(m => m.member).ToList();
+            Groups curr = _context.groups.SingleOrDefault(g => g.id == groupid);
+            if(curr.password != null) {
+                Members check = _context.members.SingleOrDefault(g => g.groupid == groupid && g.memberid == ret[0].id);
+                if(check == null) {
+                    return RedirectToAction("");
+                }
+                ViewBag.AllUsers = memlist;
+                ViewBag.CurrentUser = ret[0];
+                return View("ViewAllUsers");
+            }
+            else {
+                ViewBag.AllUsers = memlist;
+                ViewBag.CurrentGroup = curr;
+                ViewBag.CurrentUser = ret[0];
+                return View("ViewAllUsers");
             }
         }
 

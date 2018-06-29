@@ -5,5 +5,9 @@
 <h1>All Users</h1>
 <hr>
 <ul id="uslist">
-    <li>[USERNAME]</li>
+    @{
+        foreach(var user in ViewBag.AllUsers) {
+            <li>@user.member.username</li>
+        }
+    }
 </ul>

@@ -168,3 +168,6 @@ h6 {
 .table > tbody > tr > td.mid {
     vertical-align: middle;
 }
+#pw {
+    display: none;
+}

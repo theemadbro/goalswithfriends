@@ -6,14 +6,14 @@
 <script>
     $(document).ready(function(){
         $('#forgotps').click(function(){
-            alert("@ViewBag.CurrentGroup.password");
+            $('#pw').css("display", "block");
         });
     });
 </script>
 
 
 <h1>@ViewBag.CurrentGroup.name</h1>
-<h6>Created by: [NAME]</h6>
+<h6>Created by: @ViewBag.Owner.first_name</h6>
 <hr class="namediv">
 <div class="left">
 
@@ -38,22 +38,36 @@
         <h3>Recently Joined Users</h3>
         <!-- LAST FIVE TO JOIN -->
         <ul>
-            <li>[USERNAME]</li>
-            <li>[USERNAME]</li>
-            <li>[USERNAME]</li>
-            <li>[USERNAME]</li>
-            <li>[USERNAME]</li>
+            @{
+                foreach(var mem in ViewBag.RecMems) {
+                    <li>@mem.member.username</li>
+                }
+            }
         </ul>
-        <p><a href="/">View All Users</a></p>
+        <p><a href="/group/@ViewBag.CurrentGroup.id/all">View All Users</a></p>
         <hr class="namediv">
     </div>
     <div class="options">
-        <!-- HIDE FIRST BUTTON IF NOT IN GROUP -->
-        <button class="simpleMar btn btn-default">Make a Goal</button><br>
-        <button class="simpleMar btn btn-default">Leave Group</button><br>
         @{
-            if(ViewBag.CurrentUser.id == ViewBag.CurrentGroup.ownerid && ViewBag.CurrentGroup.password != null) {
-                <button id="forgotps" class="simpleMar btn btn-default btn-sm">Forgot Group Password?</button><br>
+            if(ViewBag.UserLevel == 1)
+            {
+                <a href="/group/@ViewBag.CurrentGroup.id/join"><button class="simpleMar btn btn-default">Join Group</button></a>
+            }
+            else if(ViewBag.UserLevel == 2) {
+                <button class="simpleMar btn btn-default">Make a Goal</button><br>
+                if(ViewBag.CurrentUser.id == ViewBag.CurrentGroup.ownerid)
+                {
+                    <a href="/group/@ViewBag.CurrentGroup.id/delete"><button class="simpleMar btn btn-default">Delete Group</button></a><br>
+                    if(ViewBag.CurrentGroup.password != null)
+                    {
+                        <button id="forgotps" class="simpleMar btn btn-default btn-sm">Forgot Group Password?</button><br>
+                        <p id="pw">@ViewBag.CurrentGroup.password</p>
+                    }
+                }
+                else
+                {
+                    <a href="/group/@ViewBag.CurrentGroup.id/leave"><button class="simpleMar btn btn-default">Leave Group</button></a><br>
+                }
             }
         }
     </div>
