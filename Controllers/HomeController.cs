@@ -43,6 +43,7 @@ namespace goalswithfriends.Controllers
         public IActionResult Index()
         {
             List<CurrentUser> ret = HttpContext.Session.GetObjectFromJson<List<CurrentUser>>("curr");
+            List<Groups> grouplist = _context.groups.Include(g => g.members).Where(g => g.password == null).OrderByDescending(g => g.created_at).ToList();
             if(ret == null)
             {
                 CurrentUser newcurr = new CurrentUser();
@@ -51,20 +52,26 @@ namespace goalswithfriends.Controllers
                 List<object> temp = new List<object>();
                 temp.Add(newcurr);
                 HttpContext.Session.SetObjectAsJson("curr", temp);
+                ViewBag.Groups = grouplist;
                 return View();
             }
             else if (ret.Count == 0)
             {
                 ViewBag.CurrentUser = ret[0];
+                ViewBag.Groups = grouplist;
                 return View();
             }
             else  if (ret[0].id == 0)
             {
                 ViewBag.CurrentUser = ret[0];
+                ViewBag.Groups = grouplist;
                 return View();
             }
             else
             {
+                List<GoalsU> indexgoals = _context.goalsuser.Where(g => g.usersid == ret[0].id).OrderByDescending(g => g.endDate).Take(3).ToList();
+                ViewBag.GoalsSoon = indexgoals;
+                ViewBag.Groups = grouplist;
                 ViewBag.CurrentUser = ret[0];
                 return View("IndexLOGGEDIN");
             }
@@ -355,6 +362,26 @@ namespace goalswithfriends.Controllers
             }
         }
 
+
+        [HttpGet]
+        [Route("profile/{uid}/{gid}")]
+        public IActionResult ViewGoal(int uid, int gid)
+        {
+            List<CurrentUser> ret = HttpContext.Session.GetObjectFromJson<List<CurrentUser>>("curr");
+            if (ret[0].id == 0)
+            {
+                return RedirectToAction("");
+            }
+            else
+            {
+                GoalsU showgoal = _context.goalsuser.Where(u => u.usersid == uid).SingleOrDefault(u => u.id == gid);
+                ViewBag.Profile = showgoal;
+                ViewBag.CurrentUser = ret[0];
+                return View();
+            }
+        }
+
+
         [HttpGet]
         [Route("profile/{id}/managegoals")]
         public IActionResult ManageGoals(int id)
@@ -377,6 +404,8 @@ namespace goalswithfriends.Controllers
             }
             else
             {
+                List<GoalsU> usergoals = _context.goalsuser.Where(g => g.usersid == id).OrderByDescending(g => g.created_at).ToList();
+                ViewBag.UserGoals = usergoals;
                 ViewBag.CurrentUser = ret[0];
                 return View();
             }
@@ -623,11 +652,36 @@ namespace goalswithfriends.Controllers
                 ViewBag.CurrentUser = ret[0];
                 return View("ViewAllUsers");
             }
-            else {
+            else 
+            {
                 ViewBag.AllUsers = memlist;
                 ViewBag.CurrentGroup = curr;
                 ViewBag.CurrentUser = ret[0];
                 return View("ViewAllUsers");
+            }
+        }
+        [HttpPost]
+        [Route("goal/create")]
+        public IActionResult CreateGoal(GoalsU inp) {
+            List<CurrentUser> ret = HttpContext.Session.GetObjectFromJson<List<CurrentUser>>("curr");
+            if (ret[0].id == 0)
+            {
+                return RedirectToAction("");
+            }
+            else
+            {
+                if(ModelState.IsValid)
+                {
+                    inp.usersid = ret[0].id;
+                    _context.Add(inp);
+                    _context.SaveChanges();
+                    return Redirect($"/profile/{ret[0].id}/managegoals");
+                }
+                else
+                {
+                    ViewBag.CurrentUser = ret[0];
+                    return View("MakeUGoal");
+                }
             }
         }
 
